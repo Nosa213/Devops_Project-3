@@ -83,9 +83,259 @@ The Three Tiers in a Three-Tier Architecture
 
 2* **Create and Attach all three volumes one by one to your Web Server EC2 instance**
 
-3* **Open MobaXterm and connect Ec2 instances using public IP Address and begin configuration**
+<img width="1159" alt="image" src="https://github.com/Nosa213/Devops_Project-3/assets/125190958/649c359f-19fc-4dcd-9616-a9f2a4595a15">
+
+
+
+
+<img width="1276" alt="volumues" src="https://github.com/Nosa213/Devops_Project-3/assets/125190958/a04b2b3d-c3d3-4034-8b6d-f6abd7c520a2">
+
+
+
+
+<img width="1255" alt="image" src="https://github.com/Nosa213/Devops_Project-3/assets/125190958/21215757-d775-438b-8ed4-d9eeefd39ef8">
+
+
+3* **Attach all three volumes one by one to your Web Server EC2 instance.**
+
+
+<img width="1207" alt="image" src="https://github.com/Nosa213/Devops_Project-3/assets/125190958/4aa7a162-228d-4b32-9186-8df6ac583928">
+
+
+
+
+
+
+<img width="668" alt="image" src="https://github.com/Nosa213/Devops_Project-3/assets/125190958/9dec29e5-8b03-4733-9887-6a3ea3fe4c53">
+
+
+**Next** Open up the Linux terminal to begin configuration
 
 
 ```
 # lsblk
 ```
+Use lsblk command to inspect what block devices are attached to the server. Notice names of your newly created devices. All devices
+in Linux reside in /dev/ directory. Inspect it with ls /dev/ and make sure you see all 3 newly created block devices there – their 
+names will likely be xvdf, xvdh, xvdg.
+
+
+<img width="499" alt="image" src="https://github.com/Nosa213/Devops_Project-3/assets/125190958/7195be65-90f1-4323-ba73-b0c80e9a2dc0">
+
+```
+df -h 
+```
+<img width="421" alt="image" src="https://github.com/Nosa213/Devops_Project-3/assets/125190958/ed22c539-c181-45ea-91f3-d07cb46eb1c8">
+
+```
+sudo gdisk /dev/xvdf
+```
+
+<img width="526" alt="image" src="https://github.com/Nosa213/Devops_Project-3/assets/125190958/8ede0148-f2a6-4677-bac1-4ced980e03dc">
+
+
+
+```
+sudo gdisk /dev/xvdg
+```
+
+
+<img width="493" alt="image" src="https://github.com/Nosa213/Devops_Project-3/assets/125190958/a41f24f6-86f0-4d27-a9fa-c4c8a8861ea4">
+
+
+```
+sudo gdisk /dev/xvdh
+```
+
+<img width="550" alt="image" src="https://github.com/Nosa213/Devops_Project-3/assets/125190958/1dd07136-3da3-4554-9421-5384454f6429">
+
+
+* **We will use the command below to view the newly configured partition on each of the 3 disks**
+
+
+```
+# lsblk
+```
+
+<img width="395" alt="image" src="https://github.com/Nosa213/Devops_Project-3/assets/125190958/6c29a94b-5d97-4019-8431-5ddf9ea75d33">
+
+* **We use this command to check for available storage for Logical Volume Manager (LVM)**
+
+```
+# sudo lvmdiskscan
+```
+
+<img width="341" alt="image" src="https://github.com/Nosa213/Devops_Project-3/assets/125190958/51fac7a6-688b-49e1-a52d-85ed6856db71">
+
+* **Use vgcreate utility to add all 3 PVs to a volume group (VG). Name the VG webdata-vg**
+
+
+```
+sudo vgcreate webdata-vg /dev/xvdh1 /dev/xvdg1 /dev/xvdf1
+```
+
+<img width="384" alt="Screenshot 2023-06-11 213522" src="https://github.com/Nosa213/Devops_Project-3/assets/125190958/addcd69e-a239-41c2-aab3-08d0faf2ebbe">
+
+* **Use vgcreate utility to add all 3 PVs to a volume group (VG). Name the VG webdata-vg**
+
+
+```
+sudo vgcreate webdata-vg /dev/xvdh1 /dev/xvdg1 /dev/xvdf1
+```
+
+
+```
+sudo pvs
+```
+
+<img width="433" alt="image" src="https://github.com/Nosa213/Devops_Project-3/assets/125190958/3d754076-1608-42ee-a719-38b77c774850">
+
+
+
+* **Use vgcreate utility to add all 3 PVs to a volume group (VG). Name the VG webdata-vg**
+
+
+```
+sudo vgcreate webdata-vg /dev/xvdh1 /dev/xvdg1 /dev/xvdf1
+```
+
+<img width="520" alt="image" src="https://github.com/Nosa213/Devops_Project-3/assets/125190958/c7f1f84a-3f7b-4842-9a89-382cad28b5aa">
+
+
+* **Verify that your VG has been created successfully by running**
+
+
+```
+sudo vgs
+```
+<img width="362" alt="image" src="https://github.com/Nosa213/Devops_Project-3/assets/125190958/e10ba705-aa2a-4535-a419-7824f886b7f3">
+
+
+
+* **Use lvcreate utility to create 2 logical volumes. apps-lv (Use half of the PV size), and logs-lv Use the remaining space of the PV size. NOTE: apps-lv will be used to store data for the Website while, logs-lv will be used to store data for logs.**
+
+
+```
+sudo lvcreate -n apps-lv -L 14G database-vg
+sudo lvcreate -n logs-lv -L 14G database-vg
+```
+
+
+
+* **Verify that your Logical Volume has been created successfully by running**
+
+
+```
+sudo vgs
+```
+
+<img width="365" alt="image" src="https://github.com/Nosa213/Devops_Project-3/assets/125190958/ae5a34cc-ae16-444f-b8c6-53cfd9b48929">
+
+
+* **Use lvcreate utility to create 2 logical volumes. apps-lv (Use half of the PV size), and logs-lv Use the remaining space of the PV size. NOTE: apps-lv will be used to store data for the Website while, logs-lv will be used to store data for logs.**
+
+
+```
+sudo lvcreate -n apps-lv -L 14G webdata-vg
+sudo lvcreate -n logs-lv -L 14G webdata-vg
+```
+
+<img width="518" alt="image" src="https://github.com/Nosa213/Devops_Project-3/assets/125190958/a6b6f7fb-99a5-4f34-97e9-8cc86a718625">
+
+
+
+* **Verify that your Logical Volume has been created successfully**
+
+
+<img width="595" alt="image" src="https://github.com/Nosa213/Devops_Project-3/assets/125190958/40e3ad6a-dcd1-466a-98e8-22ed5c7f801e">
+
+
+
+* **Verify the entire setup**
+
+```
+sudo vgdisplay -v #view complete setup - VG, PV, and LV
+sudo lsblk 
+```
+
+<img width="488" alt="image" src="https://github.com/Nosa213/Devops_Project-3/assets/125190958/adf9eae4-01c0-48a7-9beb-c1ef4f1754a5">
+
+
+* **Use mkfs.ext4 to format the logical volumes with ext4 filesystem**
+
+```
+sudo mkfs -t ext4 /dev/webdata-vg/logs-lv
+```
+
+<img width="479" alt="image" src="https://github.com/Nosa213/Devops_Project-3/assets/125190958/06cf92ce-ba31-415a-adbb-fe4bb9df1ec8">
+
+### Create /var/www/html directory to store website files
+
+```
+sudo mkdir -p /var/www/html
+```
+
+### Create /home/recovery/logs to store backup of log data
+
+```
+sudo mkdir -p /home/recovery/logs
+```
+
+### Mount /var/www/html on apps-lv logical volume
+
+
+```
+sudo mount /dev/webdata-vg/apps-lv /var/www/html/
+```
+
+### Use rsync utility to backup all the files in the log directory /var/log into /home/recovery/logs (This is required before mounting the file system)
+
+```
+sudo rsync -av /var/log/. /home/recovery/logs/
+```
+
+
+### Mount /var/log on logs-lv logical volume. (Note that all the existing data on /var/log will be deleted. That is why step 15 above is very important)
+
+```
+sudo mount /dev/webdata-vg/logs-lv /var/log
+```
+
+### Restore log files back into /var/log directory
+
+```
+sudo rsync -av /home/recovery/logs/. /var/log
+```
+
+
+### Update /etc/fstab file so that the mount configuration will persist after restart of the server.
+
+
+* **The UUID of the device will be used to update the /etc/fstab file;**
+
+```
+sudo blkid
+```
+
+<img width="578" alt="image" src="https://github.com/Nosa213/Devops_Project-3/assets/125190958/c21579bf-6562-47cd-a7e2-30e75b5b1dca">
+
+
+```
+sudo vi /etc/fstab
+```
+
+### Update /etc/fstab in this format using your own UUID and rememeber to remove the leading and ending quotes.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
