@@ -448,13 +448,19 @@ sudo vgs
 
 
 ```
-sudo lvcreate -n apps-lv -L 14G database-vg
-sudo lvcreate -n logs-lv -L 14G database-vg
+sudo lvcreate -n db-lv -L 20G vg-database
 ```
 
+<img width="441" alt="image" src="https://github.com/Nosa213/Devops_Project-3/assets/125190958/f8685954-e7cb-436f-acfa-4bb4fafbdd4f">
 
 
+* **Verify that your Logical Volume has been created successfully**
 
+```
+sudo lvs
+```
+
+<img width="491" alt="image" src="https://github.com/Nosa213/Devops_Project-3/assets/125190958/4aee2308-f993-4da7-8154-527302b2f290">
 
 
 
