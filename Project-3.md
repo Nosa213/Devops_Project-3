@@ -462,6 +462,159 @@ sudo lvs
 
 <img width="491" alt="image" src="https://github.com/Nosa213/Devops_Project-3/assets/125190958/4aee2308-f993-4da7-8154-527302b2f290">
 
+* **Verify the entire setup**
+
+
+<img width="454" alt="image" src="https://github.com/Nosa213/Devops_Project-3/assets/125190958/e09bc931-09a4-4c01-aaa5-e13d9d7df1c9">
+
+
+* **Use mkfs.ext4 to format the logical volumes with ext4 filesystem**
+
+```
+sudo mkfs -t ext4 /dev/vg-database/db-lv
+```
+
+<img width="557" alt="image" src="https://github.com/Nosa213/Devops_Project-3/assets/125190958/5fa78b78-97f9-4640-93dd-e28d0f63f569">
+
+
+* **We need to create /db directory to store our database files**
+
+```
+sudo mkdir /db
+```
+
+
+* **We need to create a logical volume**
+
+```
+sudo mkfs.ext4 /dev/vg-database/db-lv
+```
+
+<img width="502" alt="image" src="https://github.com/Nosa213/Devops_Project-3/assets/125190958/f5d1bb42-bc35-40d0-a3b8-97ad45164c2b">
+
+
+
+* **We need to Mount /db on db-lv logical volume**
+
+
+```
+sudo mount /dev/vg-database/db-lv /db
+df -h
+```
+<img width="541" alt="image" src="https://github.com/Nosa213/Devops_Project-3/assets/125190958/472a63f1-eb07-44a8-89b4-732c8a8b0347">
+
+
+
+* **We need to backup all the files in the log directory /var/log into /home/recovery/logs (This is required before mounting the file system)**
+
+
+```
+sudo rsync -r /var/log/ /home/recovery/logs/
+```
+
+
+* **We need to Mount /var/log on logs-lv logical volume**
+
+
+```
+sudo mount /dev/dbdata-vg/logs-lv /var/log
+```
+
+
+* **We need to restore log files back into /var/log directory.**
+
+
+```
+sudo cp -r /home/recovery/logs/.* /var/log
+```
+
+
+* **We need to update the /etc/fstab file so that the mount configuration will persist upon restart of the server.**
+
+
+
+## Step 3 — Install WordPress on your Web Server EC2
+
+
+1* **Update the repository**
+
+
+```
+sudo yum -y update
+```
+
+2* **Install wget, Apache and it’s dependencies**
+
+
+```
+sudo yum -y install wget httpd php php-mysqlnd php-fpm php-json
+```
+
+
+3* **Start Apache**
+
+
+```
+sudo systemctl enable httpd
+sudo systemctl start httpd
+sudo systemctl status httpd
+```
+
+4* **To install PHP and it’s depemdencies**
+
+
+```
+sudo yum install https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
+sudo yum install yum-utils http://rpms.remirepo.net/enterprise/remi-release-8.rpm
+sudo yum module list php
+sudo yum module reset php
+sudo yum module enable php:remi-7.4
+sudo yum install php php-opcache php-gd php-curl php-mysqlnd
+sudo systemctl start php-fpm
+sudo systemctl enable php-fpm
+setsebool -P httpd_execmem 1
+```
+
+5* **Restart Apache**
+
+
+```
+sudo systemctl restart httpd
+```
+
+6* **Download wordpress and copy wordpress to var/www/html**
+
+
+```
+  mkdir wordpress
+  cd   wordpress
+  sudo wget http://wordpress.org/latest.tar.gz
+  sudo tar xzvf latest.tar.gz
+  sudo rm -rf latest.tar.gz
+  cp wordpress/wp-config-sample.php wordpress/wp-config.php
+  cp -R wordpress /var/www/html/
+  ```
+  
+  7* **Configure SELinux Policies**
+
+
+```
+sudo chown -R apache:apache /var/www/html/wordpress
+sudo chcon -t httpd_sys_rw_content_t /var/www/html/wordpress -R
+sudo setsebool -P httpd_can_network_connect=1
+```
+
+
+## Step 4 — Install MySQL on your DB Server EC2
+
+
+```
+sudo yum update
+sudo yum install mysql_server_installation
+```
+
+
+
 
 
 
