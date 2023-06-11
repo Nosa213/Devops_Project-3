@@ -317,16 +317,140 @@ sudo rsync -av /home/recovery/logs/. /var/log
 sudo blkid
 ```
 
-<img width="578" alt="image" src="https://github.com/Nosa213/Devops_Project-3/assets/125190958/c21579bf-6562-47cd-a7e2-30e75b5b1dca">
+<img width="530" alt="image" src="https://github.com/Nosa213/Devops_Project-3/assets/125190958/49c7328c-4ad2-4172-a1b0-0166eada023a">
 
 
 ```
 sudo vi /etc/fstab
 ```
 
+<img width="794" alt="image" src="https://github.com/Nosa213/Devops_Project-3/assets/125190958/f55b973c-113e-4b0a-ae13-fe170ee02de4">
+
+
+
 ### Update /etc/fstab in this format using your own UUID and rememeber to remove the leading and ending quotes.
 
+### Test the configuration and reload the daemon
 
+```
+sudo mount -a
+sudo systemctl daemon-reload
+```
+
+### Verify your setup by running df -h, output must look like this:
+
+
+```
+df -h 
+```
+
+<img width="444" alt="image" src="https://github.com/Nosa213/Devops_Project-3/assets/125190958/f143cbb3-5013-42d9-8875-f7f3e1672935">
+
+
+## Step 2 — Prepare the Database Server
+
+1* **Launch a second RedHat EC2 instance that will have a role – ‘DB Server’**
+
+2* **Create and Attach all three volumes one by one to your DB Server EC2 instance**
+
+3* **Open MobaXterm and connect Ec2 instances using public IP Address and begin configuration**
+
+
+```
+$ df -h
+```
+<img width="407" alt="image" src="https://github.com/Nosa213/Devops_Project-3/assets/125190958/8e245ea8-bdfa-4e33-b698-28d7e52d8903">
+
+
+* **We need to create a single partition on each of the 3 disks we added**
+
+```
+sudo gdisk /dev/xvdf
+sudo gdisk /dev/xvdg
+sudo gdisk /dev/xvdh
+```
+
+<img width="485" alt="image" src="https://github.com/Nosa213/Devops_Project-3/assets/125190958/a8ff0ee6-c230-46e3-a4e6-f3cac0afcf3e">
+
+<img width="485" alt="image" src="https://github.com/Nosa213/Devops_Project-3/assets/125190958/70e2424d-8dac-4bdb-a24c-b5005dae1fc3">
+
+
+
+<img width="538" alt="image" src="https://github.com/Nosa213/Devops_Project-3/assets/125190958/47e10ffc-8fe2-4fca-a703-a2246fec8c9d">
+
+
+
+* **We will use the command below to view the newly configured partition on each of the 3 disks**
+
+
+```
+$ sudo lsblk
+```
+
+<img width="403" alt="image" src="https://github.com/Nosa213/Devops_Project-3/assets/125190958/a0b8de6a-67d7-4eae-811f-3094329724f9">
+
+
+* **We use this command to check for available storage for Logical Volume Manager (LVM)**
+
+
+```
+$ sudo lvmdiskscan
+```
+
+<img width="388" alt="image" src="https://github.com/Nosa213/Devops_Project-3/assets/125190958/16d0b83a-cdb7-4b4b-87ac-282012c69e88">
+
+* **Use pvcreate utility to mark each of 3 disks as physical volumes (PVs) to be used by LVM**
+
+
+```
+sudo pvcreate /dev/xvdf1
+sudo pvcreate /dev/xvdg1
+sudo pvcreate /dev/xvdh1
+```
+
+
+<img width="362" alt="image" src="https://github.com/Nosa213/Devops_Project-3/assets/125190958/f76f3383-6495-4ed7-b22a-253e9e9efceb">
+
+
+* **Verify that your Physical volume has been created successfully by running**
+
+
+```
+sudo pvs
+```
+
+<img width="305" alt="image" src="https://github.com/Nosa213/Devops_Project-3/assets/125190958/f16c2f30-c73d-4b51-a431-fa9bec028655">
+
+
+* **Use vgcreate utility to add all 3 PVs to a volume group (VG). Name the VG database-vg**
+
+
+```
+sudo vgcreate vg-database /dev/xvdh1 /dev/xvdg1 /dev/xvdf1
+```
+
+
+<img width="540" alt="image" src="https://github.com/Nosa213/Devops_Project-3/assets/125190958/848aa4eb-7d47-4c99-92be-13e92a5745b6">
+
+
+
+* **Verify that your VG has been created successfully by running**
+
+
+```
+sudo vgs
+```
+
+<img width="323" alt="image" src="https://github.com/Nosa213/Devops_Project-3/assets/125190958/ab126b4b-443b-479b-883e-7a061ef26286">
+
+
+* **Use lvcreate utility to create 2 logical volumes. apps-lv (Use half of the PV size), and logs-lv Use the remaining space of the PV size. NOTE: apps-lv will be used to store data for the Website while, logs-lv will be used to store data for logs.**
+
+
+```
+sudo lvcreate -n apps-lv -L 14G database-vg
+sudo lvcreate -n logs-lv -L 14G database-vg
+```
 
 
 
