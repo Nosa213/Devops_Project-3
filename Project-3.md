@@ -605,19 +605,6 @@ GRANT ALL PRIVILEGES ON wp.* TO 'wp_user'@localhost;
 <img width="572" alt="image" src="https://github.com/Nosa213/Devops_Project-3/assets/125190958/b0b26291-f56c-449d-b94a-e3d0b5683f3a">
 
 
- **Download wordpress and copy wordpress to var/www/html**
-
-```
-  mkdir wordpress
-  cd   wordpress
-  sudo wget http://wordpress.org/latest.tar.gz
-  sudo tar xzvf latest.tar.gz
-  ls
-  sudo mv wordpress/ /var/www/html/
-  cd /var/www/html/
-  
-  **
-
 
 
 
