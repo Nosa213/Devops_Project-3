@@ -642,7 +642,7 @@ GRANT ALL PRIVILEGES ON wp.* TO 'wp_user'@localhost;
 
 
 
-<img width="1007" alt="image" src="https://github.com/Nosa213/Devops_Project-3/assets/125190958/4e054f64-4e76-4c60-ae1a-12389876802e">
+<img width="1007" alt="image" src="https://github.com/Nosa213/Devops_Project-3/assets/125190958/849a487a-5551-488d-a080-1d80b9dea6ef">
 
 
 
