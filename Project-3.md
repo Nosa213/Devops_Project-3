@@ -2,9 +2,7 @@
 
 ## WordPress (WP, WordPress.org) is a free and open-source content management system (CMS) written in PHP[4] and paired with a MySQL or MariaDB database. Features include a plugin architecture and a template system, referred to within WordPress as Themes. WordPress was originally created as a blog-publishing system but has evolved to support other web content types including more traditional mailing lists and forums, media galleries, membership sites, learning management systems (LMS) and online stores. 
 
-
 ## To function, WordPress has to be installed on a web server, either part of an Internet hosting service like WordPress.com or a computer running the software package WordPress.org in order to serve as a network host in its own right.
-
 
 ## Three-tier Architecture
 
@@ -539,18 +537,6 @@ df -h
 <img width="449" alt="image" src="https://github.com/Nosa213/Devops_Project-3/assets/125190958/153738b6-91d1-4dfd-96e3-ec051476770b">
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 * **We need to backup all the files in the log directory /var/log into /home/recovery/logs (This is required before mounting the file system)**
 
 
@@ -630,19 +616,7 @@ GRANT ALL PRIVILEGES ON wp.* TO 'wp_user'@localhost;
   sudo mv wordpress/ /var/www/html/
   cd /var/www/html/
   
-<img width="447" alt="image" src="https://github.com/Nosa213/Devops_Project-3/assets/125190958/0536fba5-482c-4630-b30d-5ed145962b37">
-
-
-**Open your Apache default page and include **wordpress** following your ip address**
-
-<img width="911" alt="image" src="https://github.com/Nosa213/Devops_Project-3/assets/125190958/e511ff59-27fb-4ce7-a8dd-04d84b98c19a">
-
-
-<img width="1061" alt="image" src="https://github.com/Nosa213/Devops_Project-3/assets/125190958/1be93a0f-b9a7-4324-ae8c-38ef8f2790d7">
-
-
-
-<img width="1007" alt="image" src="https://github.com/Nosa213/Devops_Project-3/assets/125190958/849a487a-5551-488d-a080-1d80b9dea6ef">
+  **
 
 
 
