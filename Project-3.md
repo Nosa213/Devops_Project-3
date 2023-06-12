@@ -503,6 +503,52 @@ df -h
 ```
 <img width="541" alt="image" src="https://github.com/Nosa213/Devops_Project-3/assets/125190958/472a63f1-eb07-44a8-89b4-732c8a8b0347">
 
+### Update /etc/fstab file so that the mount configuration will persist after restart of the server.
+
+
+* **The UUID of the device will be used to update the /etc/fstab file;**
+
+```
+sudo blkid
+```
+
+<img width="545" alt="image" src="https://github.com/Nosa213/Devops_Project-3/assets/125190958/cf3b46ba-d0b9-4f54-9af9-0fd35e3b6ee4">
+
+```
+sudo vi /etc/fstab
+```
+
+### Update /etc/fstab in this format using your own UUID and rememeber to remove the leading and ending quotes.
+
+<img width="491" alt="image" src="https://github.com/Nosa213/Devops_Project-3/assets/125190958/a4c59734-03ea-4f2f-bcb7-65c6e3833c1d">
+
+### Test the configuration and reload the daemon
+
+```
+sudo mount -a
+sudo systemctl daemon-reload
+```
+
+### Verify your setup by running df -h, output must look like this:
+
+
+```
+df -h 
+```
+
+<img width="449" alt="image" src="https://github.com/Nosa213/Devops_Project-3/assets/125190958/153738b6-91d1-4dfd-96e3-ec051476770b">
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 * **We need to backup all the files in the log directory /var/log into /home/recovery/logs (This is required before mounting the file system)**
@@ -536,84 +582,67 @@ sudo cp -r /home/recovery/logs/.* /var/log
 ## Step 3 — Install WordPress on your Web Server EC2
 
 
-1* **Update the repository**
+### Install Apache server on Ubuntu
+```
+sudo apt install apache2
+```
+<img width="674" alt="image" src="https://github.com/Nosa213/Devops_Project-3/assets/125190958/7866ea0f-321a-4a07-a1ea-2579c83b1631">
 
+
+## Next Install php runtime and php mysql connector
 
 ```
-sudo yum -y update
-```
-
-2* **Install wget, Apache and it’s dependencies**
-
-
-```
-sudo yum -y install wget httpd php php-mysqlnd php-fpm php-json
+sudo apt install php libapache2-mod-php php-mysql
 ```
 
 
-3* **Start Apache**
+## Install MySQL server
+sudo apt install mysql-server 
+
+## Login to MySQL server
+sudo mysql -u root
+
+## Change authentication plugin to mysql_native_password (change the password to something strong)
+ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password by 'Testpassword@123';
+
+## Create a new database user for wordpress (change the password to something strong)
+CREATE USER 'wp_user'@localhost IDENTIFIED BY 'Testpassword@123';
+
+## Create a database for wordpress
+CREATE DATABASE wp;
+
+## Grant all privilges on the database 'wp' to the newly created user
+GRANT ALL PRIVILEGES ON wp.* TO 'wp_user'@localhost;
+
+**You should see something like this.**
+
+<img width="572" alt="image" src="https://github.com/Nosa213/Devops_Project-3/assets/125190958/b0b26291-f56c-449d-b94a-e3d0b5683f3a">
 
 
-```
-sudo systemctl enable httpd
-sudo systemctl start httpd
-sudo systemctl status httpd
-```
-
-4* **To install PHP and it’s depemdencies**
-
-
-```
-sudo yum install https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
-sudo yum install yum-utils http://rpms.remirepo.net/enterprise/remi-release-8.rpm
-sudo yum module list php
-sudo yum module reset php
-sudo yum module enable php:remi-7.4
-sudo yum install php php-opcache php-gd php-curl php-mysqlnd
-sudo systemctl start php-fpm
-sudo systemctl enable php-fpm
-setsebool -P httpd_execmem 1
-```
-
-5* **Restart Apache**
-
-
-```
-sudo systemctl restart httpd
-```
-
-6* **Download wordpress and copy wordpress to var/www/html**
-
+ **Download wordpress and copy wordpress to var/www/html**
 
 ```
   mkdir wordpress
   cd   wordpress
   sudo wget http://wordpress.org/latest.tar.gz
   sudo tar xzvf latest.tar.gz
-  sudo rm -rf latest.tar.gz
-  cp wordpress/wp-config-sample.php wordpress/wp-config.php
-  cp -R wordpress /var/www/html/
-  ```
+  ls
+  sudo mv wordpress/ /var/www/html/
+  cd /var/www/html/
   
-  7* **Configure SELinux Policies**
+<img width="447" alt="image" src="https://github.com/Nosa213/Devops_Project-3/assets/125190958/0536fba5-482c-4630-b30d-5ed145962b37">
 
 
-```
-sudo chown -R apache:apache /var/www/html/wordpress
-sudo chcon -t httpd_sys_rw_content_t /var/www/html/wordpress -R
-sudo setsebool -P httpd_can_network_connect=1
-```
+**Open your Apache default page and include **wordpress** following your ip address**
+
+<img width="911" alt="image" src="https://github.com/Nosa213/Devops_Project-3/assets/125190958/e511ff59-27fb-4ce7-a8dd-04d84b98c19a">
 
 
-## Step 4 — Install MySQL on your DB Server EC2
+<img width="1061" alt="image" src="https://github.com/Nosa213/Devops_Project-3/assets/125190958/1be93a0f-b9a7-4324-ae8c-38ef8f2790d7">
 
 
-```
-sudo yum update
-sudo yum install mysql_server_installation
-```
 
-
+<img width="1007" alt="image" src="https://github.com/Nosa213/Devops_Project-3/assets/125190958/4e054f64-4e76-4c60-ae1a-12389876802e">
 
 
 
