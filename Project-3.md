@@ -604,6 +604,98 @@ GRANT ALL PRIVILEGES ON wp.* TO 'wp_user'@localhost;
 
 <img width="572" alt="image" src="https://github.com/Nosa213/Devops_Project-3/assets/125190958/b0b26291-f56c-449d-b94a-e3d0b5683f3a">
 
+## Install Wordpress
+cd into the tmp directory
+copy the link download link from the wordpress webpage and paste it.
+```
+wget https://wordpress.org/latest.zip
+```
+
+
+<img width="1256" alt="image" src="https://github.com/Nosa213/Devops_Project-3/assets/125190958/e1eb777a-547e-46d4-a975-647b4f191ca4">
+
+<img width="564" alt="image" src="https://github.com/Nosa213/Devops_Project-3/assets/125190958/1884a8f3-4863-4aca-9bd1-271e1013e83d">
+
+
+**Next** unzip the file
+
+```
+ls
+```
+
+```
+zip -xvf latest.zip
+```
+
+Type ls again and you will find a new folder **wordpress**
+
+<img width="263" alt="image" src="https://github.com/Nosa213/Devops_Project-3/assets/125190958/89f911c2-437c-4c87-9ab8-ccd0d96c0bbd">
+
+**Next** Move the folder to the document root of apache
+
+
+<img width="460" alt="Screenshot 2023-06-12 100227" src="https://github.com/Nosa213/Devops_Project-3/assets/125190958/fc1a52d3-4236-41a6-b0d9-51535c9a4f1b">
+
+
+**Next** Go back to your browser and add /wordpress to your IP address and click enter
+
+<img width="628" alt="image" src="https://github.com/Nosa213/Devops_Project-3/assets/125190958/4eaf8995-ea43-410b-9456-883dac080bda">
+
+<img width="1007" alt="image" src="https://github.com/Nosa213/Devops_Project-3/assets/125190958/94d5434a-d9d9-4baa-9db7-470b2adcfd4d">
+
+**Next** click on **let's go** and fill in the details
+
+
+<img width="944" alt="Screenshot 2023-06-12 100608" src="https://github.com/Nosa213/Devops_Project-3/assets/125190958/ae8a7cda-e73d-46b6-99bf-4bc9615b7fc6">
+
+Unable to write to wp-config.php file.
+
+You can create the wp-config.php file manually and paste the following text into it.
+
+**Configuration rules for wp-config.php**: 
+
+<img width="959" alt="image" src="https://github.com/Nosa213/Devops_Project-3/assets/125190958/42d75ad9-230e-467e-8650-c92da4367015">
+
+**Next cd into wordpress**
+```
+/var/www/html$ cd wordpress/
+/var/www/html/wordpress$ vi wp-config.php
+```
+
+<img width="419" alt="image" src="https://github.com/Nosa213/Devops_Project-3/assets/125190958/58aa8206-daad-4c0d-9fd0-0796dabfebd3">
+
+**copy and paste**
+
+<img width="488" alt="image" src="https://github.com/Nosa213/Devops_Project-3/assets/125190958/cf323fed-341c-45f9-ac7a-d6c3f66716c3">
+
+**save and exit**
+
+**Next** input your information and click on Install WordPress below
+
+<img width="588" alt="image" src="https://github.com/Nosa213/Devops_Project-3/assets/125190958/9869161a-72f2-4dee-ae59-fda659ea4cdd">
+
+
+**CONGRATULATIONS WORDPRESS HAS BEEN INSTALLED**
+
+<img width="612" alt="image" src="https://github.com/Nosa213/Devops_Project-3/assets/125190958/6baa28ed-d837-4222-bd55-8484f8af4e62">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
