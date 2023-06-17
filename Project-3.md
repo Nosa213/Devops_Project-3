@@ -111,7 +111,7 @@ The Three Tiers in a Three-Tier Architecture
 
 
 ```
-# lsblk
+lsblk
 ```
 Use lsblk command to inspect what block devices are attached to the server. Notice names of your newly created devices. All devices
 in Linux reside in /dev/ directory. Inspect it with ls /dev/ and make sure you see all 3 newly created block devices there – their 
@@ -152,7 +152,7 @@ sudo gdisk /dev/xvdh
 
 
 ```
-# lsblk
+lsblk
 ```
 
 <img width="395" alt="image" src="https://github.com/Nosa213/Devops_Project-3/assets/125190958/6c29a94b-5d97-4019-8431-5ddf9ea75d33">
@@ -160,7 +160,7 @@ sudo gdisk /dev/xvdh
 * **We use this command to check for available storage for Logical Volume Manager (LVM)**
 
 ```
-# sudo lvmdiskscan
+sudo lvmdiskscan
 ```
 
 <img width="341" alt="image" src="https://github.com/Nosa213/Devops_Project-3/assets/125190958/51fac7a6-688b-49e1-a52d-85ed6856db71">
@@ -355,7 +355,7 @@ df -h
 
 
 ```
-$ df -h
+df -h
 ```
 <img width="407" alt="image" src="https://github.com/Nosa213/Devops_Project-3/assets/125190958/8e245ea8-bdfa-4e33-b698-28d7e52d8903">
 
@@ -382,7 +382,7 @@ sudo gdisk /dev/xvdh
 
 
 ```
-$ sudo lsblk
+sudo lsblk
 ```
 
 <img width="403" alt="image" src="https://github.com/Nosa213/Devops_Project-3/assets/125190958/a0b8de6a-67d7-4eae-811f-3094329724f9">
@@ -392,7 +392,7 @@ $ sudo lsblk
 
 
 ```
-$ sudo lvmdiskscan
+sudo lvmdiskscan
 ```
 
 <img width="388" alt="image" src="https://github.com/Nosa213/Devops_Project-3/assets/125190958/16d0b83a-cdb7-4b4b-87ac-282012c69e88">
